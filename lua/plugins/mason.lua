@@ -9,7 +9,9 @@ return {
           package_uninstalled = "✗"
         }
       },
-      ensure_installed = { "pyright", "lua-language-server", "rust_analyzer", "rnix-lsp" },
+      ensure_installed = { "pyright", "lua-language-server", "rust_analyzer", "rnix-lsp", "black", "isort" },
     })
   end
 }
+
+

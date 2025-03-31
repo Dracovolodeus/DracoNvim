@@ -11,7 +11,6 @@ vim.opt.smartcase = true
 vim.opt.ignorecase = true
 vim.opt.swapfile = false
 vim.opt.encoding = 'utf-8'
-vim.opt.shell = "fish"
 vim.opt.fileformat = "unix"
 vim.opt.guifont = "JetBrainsMono Nerd Font"
 vim.g.neovide_font_ligatures = true
@@ -26,6 +25,7 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Line Numbers
 vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Fillchars
 vim.opt.fillchars = {
@@ -51,6 +51,21 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt.shiftwidth = 4
     vim.opt.tabstop = 4
     vim.opt.softtabstop = 4
+
+    -- Creating a command :Format for formatting (isport + black)
+    vim.api.nvim_create_user_command('Cformat', function()
+      local file = vim.fn.expand('%:p')
+      if file == '' then
+        vim.notify('Файл не сохранён!', vim.log.levels.ERROR)
+        return
+      end
+      vim.cmd('w')
+      vim.fn.system('black ' .. vim.fn.shellescape(file))
+      vim.fn.system('isort ' .. vim.fn.shellescape(file))
+      vim.cmd('e!')
+      vim.notify('Форматирование isort + black выполнено!', vim.log.levels.INFO)
+    end, {})
+
   end,
 })
 
@@ -77,3 +92,4 @@ vim.cmd([[
 filetype indent plugin on
 syntax enable
 ]])
+
